@@ -11,5 +11,6 @@ public class ResponseSpec {
 
 		return new ResponseSpecBuilder().expectStatusCode(expectedStatusCode)
 				.expectHeader("Content-Type", Matchers.containsString("application/json")).build();
+	
 	}
 }
