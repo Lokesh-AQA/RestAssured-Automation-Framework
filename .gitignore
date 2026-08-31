@@ -1,0 +1,14 @@
+# Maven build output
+/target/
+
+# Test execution output
+/test-output/
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# OS generated files
+.DS_Store
+Thumbs.db
