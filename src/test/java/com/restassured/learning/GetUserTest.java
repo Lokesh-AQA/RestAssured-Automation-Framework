@@ -9,9 +9,10 @@ public class GetUserTest {
 	@Test
 	public void getUser() {
 
+		// GET single user
 		given()
 
-				.when().get("https://reqres.in/api/users/2")
+				.when().get("https://dummyjson.com/users/2")
 
 				.then().statusCode(200);
 	}

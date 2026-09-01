@@ -9,10 +9,12 @@ public class DeleteUserTest {
 	@Test
 	public void deleteUser() {
 
+		// Send DELETE Request
 		given()
 
-				.when().delete("https://reqres.in/api/users/2")
+				.when().delete("https://dummyjson.com/users/2")
 
-				.then().statusCode(204);
+				// Response Validation
+				.then().statusCode(200);
 	}
 }

@@ -12,20 +12,22 @@ public class ExtractJSON_TestNG {
 	@Test
 	public void getUserResponse() {
 
-		Response response = given()
+		// Send GET Request
+		Response response = given().when().get("https://dummyjson.com/users/2");
 
-				.when().get("https://reqres.in/api/users/2");
-
+		// Extract Status Code
 		int statusCode = response.getStatusCode();
 
-		int userId = response.jsonPath().getInt("data.id");
+		// Extract Response Values using JSONPath
+		int userId = response.jsonPath().getInt("id");
+		String email = response.jsonPath().getString("email");
 
-		String email = response.jsonPath().getString("data.email");
-
+		// Print Extracted Values
 		System.out.println("Status Code: " + statusCode);
 		System.out.println("User ID: " + userId);
 		System.out.println("Email: " + email);
 
+		// TestNG Validation
 		assertEquals(statusCode, 200);
 		assertEquals(userId, 2);
 	}

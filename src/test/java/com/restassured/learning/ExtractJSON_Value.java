@@ -8,26 +8,29 @@ import static io.restassured.RestAssured.*;
 
 public class ExtractJSON_Value {
 
-    @Test
-    public void getUserResponse() {
+	@Test
+	public void getUserResponse() {
 
-        Response response =
-                given()
+		// Send GET Request
+		Response response = given()
 
-                .when()
-                    .get("https://reqres.in/api/users/2");
+				.when().get("https://dummyjson.com/users/2");
 
-        System.out.println("Status Code: " + response.getStatusCode());
+		// Print Status Code
+		System.out.println("Status Code: " + response.getStatusCode());
 
-        System.out.println("Response Body:");
-        System.out.println(response.asPrettyString());
+		// Print Response Body
+		System.out.println("Response Body:");
+		System.out.println(response.asPrettyString());
 
-        int userId1 = response.jsonPath().getInt("data.id");
-        String userId2 = response.jsonPath().getString("data.email");
-        String userId3 = response.jsonPath().getString("data.first_name");
+		// JSONPath Extraction
+		int userId = response.jsonPath().getInt("id");
+		String email = response.jsonPath().getString("email");
+		String firstName = response.jsonPath().getString("firstName");
 
-        System.out.println("User ID: " + userId1);
-        System.out.println("Email ID: "+ userId2);
-        System.out.println("First_Name "+ userId3);
-    }
+		// Print Extracted Values
+		System.out.println("User ID: " + userId);
+		System.out.println("Email ID: " + email);
+		System.out.println("First Name: " + firstName);
+	}
 }

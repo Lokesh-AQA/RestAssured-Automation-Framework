@@ -1,7 +1,6 @@
 package com.restassured.framework.specifications;
 
 import com.restassured.framework.config.ConfigManager;
-
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 

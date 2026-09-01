@@ -9,10 +9,13 @@ public class GetUsersMultiQueryParamTest {
 	@Test
 	public void getUsers() {
 
-		given().queryParam("page", 2).queryParam("limit", 10)
+		// Multiple Query Parameters
+		given().queryParam("limit", 10).queryParam("skip", 10)
 
-				.when().get("https://reqres.in/api/users")
+				// Send GET Request
+				.when().get("https://dummyjson.com/users")
 
+				// Validate Status Code
 				.then().statusCode(200);
 	}
 }

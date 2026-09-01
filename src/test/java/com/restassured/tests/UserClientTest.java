@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.*;
 import com.restassured.framework.clients.UserClient;
 import com.restassured.framework.models.UserRequest;
 import com.restassured.framework.models.UserResponse;
-import com.restssured.basetest.BaseTest;
+import com.restassured.basetest.BaseTest;
 
 import io.restassured.response.Response;
 
@@ -25,46 +25,41 @@ public class UserClientTest extends BaseTest {
 
 	@Test
 	public void getUser() {
-		// TestNG + JSONPath
+
 		Response response = userClient.getUser("2");
 
 		assertEquals(response.getStatusCode(), 200);
 
 		System.out.println(response.asPrettyString());
 
-		String firstName = response.jsonPath().getString("data.first_name");
-		String email = response.jsonPath().getString("data.email");
-		int id = response.jsonPath().getInt("data.id");
+		String firstName = response.jsonPath().getString("firstName");
+		String email = response.jsonPath().getString("email");
+		int id = response.jsonPath().getInt("id");
 
 		System.out.println("First Name: " + firstName);
-		System.out.println("email : " + email);
+		System.out.println("Email: " + email);
 		System.out.println("ID: " + id);
 
-		assertEquals(firstName, "Janet");
-		assertEquals(email, "janet.weaver@reqres.in");
+		assertEquals(firstName, "Terry");
+		assertEquals(email, "terry@example.com");
 		assertEquals(id, 2);
 	}
 
 	@Test
 	public void validateUserResponseWithHamcrest() {
 
-	    Response response = userClient.getUser("2");
+		Response response = userClient.getUser("2");
 
-	    response.then()
-	            .statusCode(200)
-	            .header("Content-Type", containsString("application/json"))
-	            .body("data.first_name", equalTo("Janet"))
-	            .body("data.email", equalTo("janet.weaver@reqres.in"))
-	            .body("data.email", notNullValue())
-	            .body("data.email", containsString("@reqres.in"))
-	            .body("data.id", equalTo(2))
-	            .body("data.id", greaterThan(0));
+		response.then().statusCode(200).header("Content-Type", containsString("application/json"))
+				.body("data.first_name", equalTo("Janet")).body("data.email", equalTo("janet.weaver@reqres.in"))
+				.body("data.email", notNullValue()).body("data.email", containsString("@reqres.in"))
+				.body("data.id", equalTo(2)).body("data.id", greaterThan(0));
 	}
 
 	@Test
 	public void getUsers() {
 
-		Response response = userClient.getUsers(2);
+		Response response = userClient.getUsers(10, 0);
 
 		assertEquals(response.getStatusCode(), 200);
 
@@ -76,50 +71,37 @@ public class UserClientTest extends BaseTest {
 		// POJO Setup
 		UserRequest userRequest = new UserRequest();
 
-		userRequest.setName("Lokesh");
-		userRequest.setJob("QA Automation Engineer");
+		userRequest.setFirstName("Lokesh");
+		userRequest.setLastName("QA");
+		userRequest.setAge(33);
 
-		// Execution Happen and Complete
+		// Execution: Serialize POJO and Send POST Request
 		Response response = userClient.createUser(userRequest);
 
 		System.out.println(response.asPrettyString());
 
-		// Hamcrest Validation
+		// Hamcrest Validation: Verify HTTP Status Code
 		assertThat(response.getStatusCode(), equalTo(201));
 
-		// Printing Nested JSON Specific Value from JSON Response
-		String PoweredBy = response.jsonPath().getString("_meta.powered_by");
-		System.out.println("Power By: " + PoweredBy);
+		// JSONPath Extraction: Extract ID from Response
+		int userId = response.jsonPath().getInt("id");
 
-		// Converting JSON Response to Java Object using Deserialization Technique
+		System.out.println("Created User ID: " + userId);
+
+		// Deserialization: Convert JSON Response to Java Object
 		UserResponse userResponse = response.as(UserResponse.class);
 
-		// Printing the specific value from Java Object Response (Java Beans Setter &
-		// Getter)
-		System.out.println("Name: " + userResponse.getName());
-		System.out.println("Job: " + userResponse.getJob());
+		// Reading Response POJO Values using Getters
 		System.out.println("ID: " + userResponse.getId());
+		System.out.println("First Name: " + userResponse.getFirstName());
+		System.out.println("Last Name: " + userResponse.getLastName());
+		System.out.println("Age: " + userResponse.getAge());
 
-		// Hamcrest Validation
-		assertThat(userResponse.getName(), equalTo("Lokesh"));
-		assertThat(userResponse.getJob(), equalTo("QA Automation Engineer"));
-		assertThat(userResponse.getId(), notNullValue());
-
-		System.out.println("Created At: " + userResponse.getCreatedAt());
-
-		System.out.println("Powered By: " + userResponse.get_meta().getPowered_by());
-
-		System.out.println("Message: " + userResponse.get_meta().getMessage());
-
-		System.out.println("Context: " + userResponse.get_meta().getContext());
-
-		System.out.println("CTA Label: " + userResponse.get_meta().getCta().getLabel());
-
-		System.out.println("CTA URL: " + userResponse.get_meta().getCta().getUrl());
-
-		assertEquals(response.getStatusCode(), 201);
-
-		assertThat(response.getStatusCode(), equalTo(201));
+		// Hamcrest Validation: Verify Response Data
+		assertThat(userResponse.getId(), greaterThan(0));
+		assertThat(userResponse.getFirstName(), equalTo("Lokesh"));
+		assertThat(userResponse.getLastName(), equalTo("QA"));
+		assertThat(userResponse.getAge(), equalTo(33));
 	}
 
 	@Test
@@ -129,8 +111,9 @@ public class UserClientTest extends BaseTest {
 
 		UserRequest userRequest = new UserRequest();
 
-		userRequest.setName("Lokesh");
-		userRequest.setJob("QA Automation Engineer");
+		userRequest.setFirstName("Lokesh");
+		userRequest.setLastName("QA");
+		userRequest.setAge(33);
 
 		Response createResponse = userClient.createUser(userRequest);
 

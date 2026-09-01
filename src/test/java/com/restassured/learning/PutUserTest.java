@@ -10,18 +10,22 @@ public class PutUserTest {
 	@Test
 	public void updateUser() {
 
+		// Request Body
 		String requestBody = """
 				{
-				    "name": "Lokesh Updated",
-				    "job": "Senior QA Automation Engineer"
+				    "firstName": "Lokesh Updated",
+				    "lastName": "QA Automation Engineer",
+				    "age": 33
 				}
 				""";
 
+		// Send PUT Request
 		given().header("Content-Type", "application/json").body(requestBody)
 
-				.when().put("https://reqres.in/api/users/2")
+				.when().put("https://dummyjson.com/users/2")
 
-				.then().statusCode(200).body("name", equalTo("Lokesh Updated"))
-				.body("job", equalTo("Senior QA Automation Engineer"));
+				// Response Validation
+				.then().statusCode(200).body("firstName", equalTo("Lokesh Updated"))
+				.body("lastName", equalTo("QA Automation Engineer")).body("age", equalTo(33));
 	}
 }

@@ -9,10 +9,13 @@ public class GetUsersQueryParamTest {
 	@Test
 	public void getUsers() {
 
-		given().queryParam("page", 2)
+		// Query Parameter
+		given().queryParam("limit", 10)
 
-				.when().get("https://reqres.in/api/users")
+				// Send GET Request
+				.when().get("https://dummyjson.com/users")
 
+				// Validate Status Code
 				.then().statusCode(200);
 	}
 }

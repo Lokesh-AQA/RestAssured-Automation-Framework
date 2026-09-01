@@ -10,17 +10,22 @@ public class PostUserTest {
 	@Test
 	public void createUser() {
 
+		// Request Body
 		String requestBody = """
 				{
-				    "name": "Lokesh",
-				    "job": "QA Automation Engineer"
+				    "firstName": "Lokesh",
+				    "lastName": "QA",
+				    "age": 33
 				}
 				""";
 
+		// Send POST Request
 		given().header("Content-Type", "application/json").body(requestBody)
 
-				.when().post("https://reqres.in/api/users")
+				.when().post("https://dummyjson.com/users/add")
 
-				.then().statusCode(201).body("name", equalTo("Lokesh")).body("job", equalTo("QA Automation Engineer"));
+				// Response Validation
+				.then().statusCode(201).body("firstName", equalTo("Lokesh")).body("lastName", equalTo("QA"))
+				.body("age", equalTo(33));
 	}
 }

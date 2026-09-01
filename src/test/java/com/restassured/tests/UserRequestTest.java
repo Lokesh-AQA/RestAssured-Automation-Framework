@@ -9,12 +9,17 @@ public class UserRequestTest {
 	@Test
 	public void createUserRequestObject() {
 
+		// Create Request POJO
 		UserRequest userRequest = new UserRequest();
 
-		userRequest.setName("Lokesh");
-		userRequest.setJob("QA Automation Engineer");
+		// Set Request Data
+		userRequest.setFirstName("Lokesh");
+		userRequest.setLastName("QA");
+		userRequest.setAge(33);
 
-		System.out.println("Name: " + userRequest.getName());
-		System.out.println("Job: " + userRequest.getJob());
+		// Read Request Data using Getters
+		System.out.println("First Name: " + userRequest.getFirstName());
+		System.out.println("Last Name: " + userRequest.getLastName());
+		System.out.println("Age: " + userRequest.getAge());
 	}
 }

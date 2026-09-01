@@ -22,42 +22,33 @@ public class UserClient {
 	}
 
 	// GET all users
-	public Response getUsers(int page) {
+	public Response getUsers(int limit, int skip) {
 
-		return given().spec(requestSpecification).queryParam("page", page)
-
-				.when().get("/users");
+		return given().spec(requestSpecification).queryParam("limit", limit).queryParam("skip", skip).when()
+				.get("/users");
 	}
 
 	// CREATE user
 	public Response createUser(Object userRequest) {
 
-		return given().spec(requestSpecification).body(userRequest)
-
-				.when().post("/users");
+		return given().spec(requestSpecification).body(userRequest).when().post("/users/add");
 	}
 
 	// UPDATE user - PUT
 	public Response updateUser(int userId, String requestBody) {
 
-		return given().spec(requestSpecification).body(requestBody)
-
-				.when().put("/users/{userId}", userId);
+		return given().spec(requestSpecification).body(requestBody).when().put("/users/{userId}", userId);
 	}
 
 	// PARTIAL UPDATE user - PATCH
 	public Response patchUser(int userId, String requestBody) {
 
-		return given().spec(requestSpecification).body(requestBody)
-
-				.when().patch("/users/{userId}", userId);
+		return given().spec(requestSpecification).body(requestBody).when().patch("/users/{userId}", userId);
 	}
 
 	// DELETE user
 	public Response deleteUser(int userId) {
 
-		return given().spec(requestSpecification)
-
-				.when().delete("/users/{userId}", userId);
+		return given().spec(requestSpecification).when().delete("/users/{userId}", userId);
 	}
 }

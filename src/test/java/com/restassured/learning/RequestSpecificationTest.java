@@ -13,13 +13,16 @@ public class RequestSpecificationTest {
 	@Test
 	public void getUser() {
 
-		RequestSpecification requestSpec = new RequestSpecBuilder().setBaseUri("https://reqres.in").setBasePath("/api")
+		// Create Request Specification
+		RequestSpecification requestSpec = new RequestSpecBuilder().setBaseUri("https://dummyjson.com")
 				.addHeader("Accept", "application/json").build();
 
+		// Send GET Request using Request Specification
 		given().spec(requestSpec)
 
 				.when().get("/users/2")
 
-				.then().statusCode(200).body("data.id", equalTo(2));
+				// Response Validation
+				.then().statusCode(200).body("id", equalTo(2));
 	}
 }

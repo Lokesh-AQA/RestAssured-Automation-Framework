@@ -10,16 +10,19 @@ public class PatchUserTest {
 	@Test
 	public void partiallyUpdateUser() {
 
+		// Request Body
 		String requestBody = """
 				{
-				    "job": "Lead QA Engineer"
+				    "firstName": "Lokesh Updated"
 				}
 				""";
 
+		// Send PATCH Request
 		given().header("Content-Type", "application/json").body(requestBody)
 
-				.when().patch("https://reqres.in/api/users/2")
+				.when().patch("https://dummyjson.com/users/2")
 
-				.then().statusCode(200).body("job", equalTo("Lead QA Engineer"));
+				// Response Validation
+				.then().statusCode(200).body("firstName", equalTo("Lokesh Updated"));
 	}
 }
